@@ -1,652 +1,390 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap');
+/* =========================
+   КЪСМЕТИ
+========================= */
 
-* {
-    box-sizing: border-box;
-}
+const fortunes = {
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    overflow: hidden;
+    1: "✈️ Стягай куфара, че тази година диванът ще те вижда само на снимки! ✈️",
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    2: "❤️ Здравето ти ще е желязно, а настроението — заразно!",
 
-    font-family: 'Montserrat', sans-serif;
+    3: "❤️ Чесънче – скилидка тънка – дяволи ще гони вънка, а пък с люспица от леща чака те любов гореща!",
 
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(255,255,255,0.18),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 20% 80%,
-            rgba(214,168,82,0.12),
-            transparent 30%
-        ),
-        linear-gradient(
-            145deg,
-            #3a1018,
-            #641d27 45%,
-            #2b0c12
-        );
+    4: "📚 Тази година ще учиш толкова много, че и учебниците ще започнат да се чудят кога ще си починеш!",
 
-    position: relative;
-}
+    5: "🚗 Ключът ще се върти, километри ще се трупат — тази година пътят пред теб ще се отваря!",
 
-/* Фоново златно сияние */
+    6: "💼 Работа ще има, пари ще има — а шефът дано поне веднъж да каже: „Браво, почивай си!“",
 
-body::before {
-    content: "";
+    7: "👶 Малки крачета ще тропат, играчки ще се разхвърлят — а една голяма любов ще изпълни дома!",
 
-    position: fixed;
+    8: "💍 Ще звънят чаши, ще гърмят наздравици — тази година любовта ще мине под венчило!",
 
-    width: 500px;
-    height: 500px;
+    9: "🏠 Нов уют ще те чака — къщата ще се пълни с топлина, смях и хубави моменти!",
 
-    border-radius: 50%;
+    10: "💰 Жълтици ще дрънкат, банкноти ще шумят — парите към тебе сами ще вървят!",
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,210,100,0.16),
-            transparent 65%
-        );
+    11: "🍀 Късметът ще ти намига, съдбата ще помага — тази година всичко по мед и масло ще става!",
 
-    filter: blur(20px);
+    12: "😴 Диванът ще те зове, морето ще те чака — тази година работата да почака!"
+};
 
-    pointer-events: none;
-}
 
-/* КАРТА */
+/* =========================
+   ОПРЕДЕЛЯМЕ КОЙ КЪСМЕТ ДА ПОКАЖЕМ
+========================= */
 
-.card {
-    position: relative;
-    z-index: 10;
+const params = new URLSearchParams(
+    window.location.search
+);
 
-    width: min(90%, 430px);
+const fortuneNumber =
+    params.get("k") || "1";
 
-    padding: 38px 28px 30px;
 
-    text-align: center;
+/* =========================
+   ПАДАЩ СНЯГ
+========================= */
 
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.98),
-            rgba(255,248,232,0.98)
-        );
+function createSnow() {
 
-    border: 2px solid #d8b56a;
+    const snow =
+        document.createElement("div");
 
-    border-radius: 28px;
+    snow.className = "snow";
 
-    box-shadow:
-        0 0 0 5px rgba(255,255,255,0.06),
-        0 15px 50px rgba(0,0,0,0.45),
-        0 0 35px rgba(221,176,75,0.22);
+    const symbols = [
+        "❄",
+        "❅",
+        "❆",
+        "•"
+    ];
 
-    animation: cardGlow 4s ease-in-out infinite;
-}
-
-@keyframes cardGlow {
-    0%, 100% {
-        box-shadow:
-            0 15px 50px rgba(0,0,0,0.45),
-            0 0 25px rgba(221,176,75,0.18);
-    }
-
-    50% {
-        box-shadow:
-            0 15px 50px rgba(0,0,0,0.45),
-            0 0 45px rgba(255,210,100,0.38);
-    }
-}
-
-/* Малки звездички */
-
-.card::before {
-    content: "✦";
-
-    position: absolute;
-
-    top: 12px;
-    left: 18px;
-
-    color: #c79b42;
-
-    font-size: 22px;
-
-    animation: sparkle 2s infinite;
-}
-
-.card::after {
-    content: "✦";
-
-    position: absolute;
-
-    top: 12px;
-    right: 18px;
-
-    color: #c79b42;
-
-    font-size: 22px;
-
-    animation: sparkle 2s infinite 0.8s;
-}
-
-@keyframes sparkle {
-    0%, 100% {
-        opacity: .3;
-        transform: scale(.8);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.3);
-    }
-}
-
-/* ЗАГЛАВИЕ */
-
-h1 {
-    font-family: 'Cormorant Garamond', serif;
-
-    font-size: 34px;
-
-    line-height: 1.05;
-
-    color: #681d27;
-
-    margin: 5px 0 25px;
-
-    font-weight: 700;
-}
-
-/* РАЗДЕЛИТЕЛ */
-
-.divider {
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 10px;
-
-    color: #c49a48;
-
-    margin-bottom: 22px;
-}
-
-.divider::before,
-.divider::after {
-    content: "";
-
-    width: 55px;
-
-    height: 1px;
-
-    background:
-        linear-gradient(
-            to right,
-            transparent,
-            #c49a48
-        );
-}
-
-.divider::after {
-    background:
-        linear-gradient(
-            to left,
-            transparent,
-            #c49a48
-        );
-}
-
-/* БУТОН */
-
-button {
-    border: none;
-
-    padding: 15px 28px;
-
-    border-radius: 50px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #c99b45,
-            #e4c06e,
-            #b88432
-        );
-
-    color: white;
-
-    font-family: 'Montserrat', sans-serif;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 7px 20px rgba(170,120,35,0.35);
-
-    transition: .3s;
-
-    animation: buttonGlow 2.5s infinite;
-}
-
-button:hover {
-    transform: translateY(-2px) scale(1.03);
-}
-
-@keyframes buttonGlow {
-    0%, 100% {
-        box-shadow:
-            0 7px 20px rgba(170,120,35,0.35);
-    }
-
-    50% {
-        box-shadow:
-            0 7px 30px rgba(255,200,80,0.65);
-    }
-}
-
-/* КЪСМЕТ */
-
-.fortune {
-    display: none;
-
-    font-family: 'Cormorant Garamond', serif;
-
-    font-size: 27px;
-
-    line-height: 1.25;
-
-    color: #641d27;
-
-    font-weight: 600;
-
-    padding: 5px 5px 10px;
-}
-
-/* ЕФЕКТНО ПОЯВЯВАНЕ */
-
-.fortune.epic {
-    display: block;
-
-    animation:
-        epicFortune
-        1.25s
-        cubic-bezier(.17,.89,.32,1.28)
-        forwards;
-}
-
-@keyframes epicFortune {
-    0% {
-        opacity: 0;
-
-        filter:
-            blur(15px)
-            drop-shadow(0 0 0 transparent);
-
-        transform:
-            scale(0.35)
-            translateY(25px);
-    }
-
-    35% {
-        opacity: 0.35;
-
-        filter:
-            blur(7px)
-            drop-shadow(
-                0 0 25px
-                rgba(218,170,65,0.8)
-            );
-
-        transform:
-            scale(1.15)
-            translateY(-5px);
-    }
-
-    65% {
-        opacity: 0.8;
-
-        filter:
-            blur(2px)
-            drop-shadow(
-                0 0 18px
-                rgba(218,170,65,0.6)
-            );
-
-        transform:
-            scale(0.97)
-            translateY(0);
-    }
-
-    100% {
-        opacity: 1;
-
-        filter:
-            blur(0)
-            drop-shadow(0 0 0 transparent);
-
-        transform:
-            scale(1)
-            translateY(0);
-    }
-}
-
-/* ПОДПИС */
-
-.signature {
-    margin-top: 25px;
-
-    font-family: 'Cormorant Garamond', serif;
-
-    font-size: 18px;
-
-    color: #a07835;
-
-    font-style: italic;
-}
-
-/* СНЯГ */
-
-.snow {
-    position: fixed;
-
-    top: -20px;
-
-    color: white;
-
-    pointer-events: none;
-
-    z-index: 5;
-
-    animation:
-        snowFall
-        linear
-        infinite;
-}
-
-@keyframes snowFall {
-    to {
-        transform:
-            translateY(110vh)
-            rotate(360deg);
-    }
-}
-
-/* РАЗТЪРСВАНЕ */
-
-.card.magic {
-    animation:
-        magicShake
-        0.8s
-        ease;
-}
-
-@keyframes magicShake {
-    0% {
-        transform: scale(1);
-    }
-
-    15% {
-        transform:
-            scale(1.02)
-            rotate(-1deg);
-    }
-
-    30% {
-        transform:
-            scale(1.04)
-            rotate(1deg);
-    }
-
-    45% {
-        transform:
-            scale(1.02)
-            rotate(-0.7deg);
-    }
-
-    60% {
-        transform:
-            scale(1.03)
-            rotate(0.7deg);
-    }
-
-    100% {
-        transform:
-            scale(1)
-            rotate(0);
-    }
-}
-
-/* ГОЛЯМ СВЕТЕЩ КРЪГ */
-
-.magic-ring {
-    position: fixed;
-
-    left: 50%;
-    top: 50%;
-
-    width: 40px;
-    height: 40px;
-
-    border-radius: 50%;
-
-    border:
-        3px solid
-        rgba(255,215,110,0.95);
-
-    transform:
-        translate(-50%, -50%)
-        scale(0);
-
-    z-index: 30;
-
-    pointer-events: none;
-
-    box-shadow:
-        0 0 15px #f5d477,
-        0 0 40px #f5d477,
-        inset 0 0 15px #fff1a8;
-
-    animation:
-        ringExplosion
-        1.2s
-        ease-out
-        forwards;
-}
-
-@keyframes ringExplosion {
-    0% {
-        opacity: 1;
-
-        transform:
-            translate(-50%, -50%)
-            scale(0);
-    }
-
-    35% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(12);
-    }
-}
-
-/* ГОЛЯМО СИЯНИЕ */
-
-.magic-light {
-    position: fixed;
-
-    left: 50%;
-    top: 50%;
-
-    width: 100px;
-    height: 100px;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,239,166,0.95),
-            rgba(255,210,90,0.35),
-            transparent 70%
-        );
-
-    transform:
-        translate(-50%, -50%)
-        scale(0);
-
-    z-index: 25;
-
-    pointer-events: none;
-
-    animation:
-        lightExplosion
-        1s
-        ease-out
-        forwards;
-}
-
-@keyframes lightExplosion {
-    0% {
-        opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(0);
-    }
-
-    25% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(7);
-    }
-}
-
-/* ЗЛАТНИ ЗВЕЗДИ */
-
-.magic-star {
-    position: fixed;
-
-    z-index: 40;
-
-    color: #f5d477;
-
-    font-size: 18px;
-
-    pointer-events: none;
-
-    text-shadow:
-        0 0 8px #fff1a8,
-        0 0 18px #f5d477;
-
-    animation:
-        starExplosion
-        1.4s
-        ease-out
-        forwards;
-}
-
-@keyframes starExplosion {
-    0% {
-        opacity: 0;
-
-        transform:
-            translate(-50%, -50%)
-            scale(0);
-    }
-
-    15% {
-        opacity: 1;
-
-        transform:
-            translate(-50%, -50%)
-            scale(1.4);
-    }
-
-    100% {
-        opacity: 0;
-
-        transform:
-            translate(
-                calc(-50% + var(--sx)),
-                calc(-50% + var(--sy))
+    snow.innerHTML =
+        symbols[
+            Math.floor(
+                Math.random() *
+                symbols.length
             )
-            rotate(180deg)
-            scale(0.2);
-    }
+        ];
+
+    snow.style.left =
+        Math.random() * 100 + "vw";
+
+    snow.style.fontSize =
+        (8 + Math.random() * 13) + "px";
+
+    snow.style.opacity =
+        0.35 + Math.random() * 0.65;
+
+    snow.style.animationDuration =
+        (5 + Math.random() * 7) + "s";
+
+    document.body.appendChild(snow);
+
+    setTimeout(() => {
+        snow.remove();
+    }, 13000);
 }
 
-/* КОНФЕТИ */
 
-.confetti {
-    position: fixed;
+setInterval(
+    createSnow,
+    180
+);
 
-    width: 6px;
-    height: 12px;
 
-    top: -20px;
+/* =========================
+   РАЗКРИВАНЕ НА КЪСМЕТА
+========================= */
 
-    z-index: 15;
+function revealFortune() {
 
-    pointer-events: none;
+    const button =
+        document.querySelector("button");
 
-    animation:
-        confettiFall
-        linear
-        forwards;
+    const fortune =
+        document.getElementById("fortune");
+
+    const card =
+        document.querySelector(".card");
+
+
+    /* Взимаме правилния късмет */
+
+    const selectedFortune =
+        fortunes[fortuneNumber] ||
+        fortunes[1];
+
+
+    fortune.innerHTML =
+        selectedFortune;
+
+
+    /* Скриваме бутона */
+
+    button.style.display =
+        "none";
+
+
+    /* Разтърсване на картата */
+
+    card.classList.add("magic");
+
+
+    /* =====================
+       ГОЛЯМО СИЯНИЕ
+    ===================== */
+
+    const light =
+        document.createElement("div");
+
+    light.className =
+        "magic-light";
+
+    document.body.appendChild(light);
+
+
+    /* =====================
+       СВЕТЕЩ КРЪГ
+    ===================== */
+
+    const ring =
+        document.createElement("div");
+
+    ring.className =
+        "magic-ring";
+
+    document.body.appendChild(ring);
+
+
+    /* =====================
+       ЗЛАТЕН ВЗРИВ ОТ ЗВЕЗДИ
+    ===================== */
+
+    const stars = [
+        "✦",
+        "✧",
+        "✨",
+        "★",
+        "✦",
+        "✧",
+        "★"
+    ];
+
+
+    for (
+        let i = 0;
+        i < 45;
+        i++
+    ) {
+
+        const star =
+            document.createElement("div");
+
+        star.className =
+            "magic-star";
+
+        star.innerHTML =
+            stars[
+                Math.floor(
+                    Math.random() *
+                    stars.length
+                )
+            ];
+
+        star.style.left =
+            "50%";
+
+        star.style.top =
+            "50%";
+
+
+        const angle =
+            Math.random() *
+            Math.PI *
+            2;
+
+        const distance =
+            100 +
+            Math.random() *
+            300;
+
+
+        star.style.setProperty(
+            "--sx",
+            Math.cos(angle) *
+            distance +
+            "px"
+        );
+
+
+        star.style.setProperty(
+            "--sy",
+            Math.sin(angle) *
+            distance +
+            "px"
+        );
+
+
+        star.style.fontSize =
+            (
+                10 +
+                Math.random() *
+                18
+            ) + "px";
+
+
+        document.body.appendChild(
+            star
+        );
+
+
+        setTimeout(() => {
+            star.remove();
+        }, 1600);
+
+    }
+
+
+    /* =====================
+       ПОЯВА НА КЪСМЕТА
+    ===================== */
+
+    setTimeout(() => {
+
+        fortune.style.display =
+            "block";
+
+        fortune.classList.remove(
+            "epic"
+        );
+
+
+        /* рестартираме анимацията */
+
+        void fortune.offsetWidth;
+
+
+        fortune.classList.add(
+            "epic"
+        );
+
+
+        createConfetti();
+
+    }, 450);
+
+
+    /* =====================
+       ПОЧИСТВАНЕ
+    ===================== */
+
+    setTimeout(() => {
+
+        light.remove();
+
+        ring.remove();
+
+        card.classList.remove(
+            "magic"
+        );
+
+    }, 1600);
 }
 
-@keyframes confettiFall {
-    to {
-        transform:
-            translateY(110vh)
-            rotate(720deg);
-    }
-}
 
-/* МОБИЛЕН ЕКРАН */
+/* =========================
+   КОНФЕТИ
+========================= */
 
-@media (max-width: 480px) {
+function createConfetti() {
 
-    .card {
-        width: 90%;
+    const pieces = 90;
 
-        padding:
-            35px
-            22px
-            28px;
-    }
 
-    h1 {
-        font-size: 31px;
-    }
+    for (
+        let i = 0;
+        i < pieces;
+        i++
+    ) {
 
-    .fortune {
-        font-size: 25px;
+        const confetti =
+            document.createElement(
+                "div"
+            );
+
+        confetti.className =
+            "confetti";
+
+
+        confetti.style.left =
+            Math.random() *
+            100 +
+            "vw";
+
+
+        confetti.style.animationDuration =
+            (
+                3 +
+                Math.random() *
+                4
+            ) +
+            "s";
+
+
+        confetti.style.animationDelay =
+            Math.random() *
+            0.8 +
+            "s";
+
+
+        confetti.style.background =
+            [
+                "#d4af37",
+                "#f5d477",
+                "#ffffff",
+                "#8f1828",
+                "#c99b45"
+            ][
+                Math.floor(
+                    Math.random() * 5
+                )
+            ];
+
+
+        confetti.style.width =
+            (
+                4 +
+                Math.random() *
+                5
+            ) +
+            "px";
+
+
+        confetti.style.height =
+            (
+                8 +
+                Math.random() *
+                8
+            ) +
+            "px";
+
+
+        confetti.style.transform =
+            `rotate(
+                ${Math.random() * 360}deg
+            )`;
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 8000);
+
     }
 }
