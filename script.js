@@ -1,0 +1,652 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@400;500;600&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Montserrat', sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255,255,255,0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(214,168,82,0.12),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            #3a1018,
+            #641d27 45%,
+            #2b0c12
+        );
+
+    position: relative;
+}
+
+/* Фоново златно сияние */
+
+body::before {
+    content: "";
+
+    position: fixed;
+
+    width: 500px;
+    height: 500px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,210,100,0.16),
+            transparent 65%
+        );
+
+    filter: blur(20px);
+
+    pointer-events: none;
+}
+
+/* КАРТА */
+
+.card {
+    position: relative;
+    z-index: 10;
+
+    width: min(90%, 430px);
+
+    padding: 38px 28px 30px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.98),
+            rgba(255,248,232,0.98)
+        );
+
+    border: 2px solid #d8b56a;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 0 0 5px rgba(255,255,255,0.06),
+        0 15px 50px rgba(0,0,0,0.45),
+        0 0 35px rgba(221,176,75,0.22);
+
+    animation: cardGlow 4s ease-in-out infinite;
+}
+
+@keyframes cardGlow {
+    0%, 100% {
+        box-shadow:
+            0 15px 50px rgba(0,0,0,0.45),
+            0 0 25px rgba(221,176,75,0.18);
+    }
+
+    50% {
+        box-shadow:
+            0 15px 50px rgba(0,0,0,0.45),
+            0 0 45px rgba(255,210,100,0.38);
+    }
+}
+
+/* Малки звездички */
+
+.card::before {
+    content: "✦";
+
+    position: absolute;
+
+    top: 12px;
+    left: 18px;
+
+    color: #c79b42;
+
+    font-size: 22px;
+
+    animation: sparkle 2s infinite;
+}
+
+.card::after {
+    content: "✦";
+
+    position: absolute;
+
+    top: 12px;
+    right: 18px;
+
+    color: #c79b42;
+
+    font-size: 22px;
+
+    animation: sparkle 2s infinite 0.8s;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: .3;
+        transform: scale(.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.3);
+    }
+}
+
+/* ЗАГЛАВИЕ */
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 34px;
+
+    line-height: 1.05;
+
+    color: #681d27;
+
+    margin: 5px 0 25px;
+
+    font-weight: 700;
+}
+
+/* РАЗДЕЛИТЕЛ */
+
+.divider {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    color: #c49a48;
+
+    margin-bottom: 22px;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    width: 55px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            #c49a48
+        );
+}
+
+.divider::after {
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            #c49a48
+        );
+}
+
+/* БУТОН */
+
+button {
+    border: none;
+
+    padding: 15px 28px;
+
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #c99b45,
+            #e4c06e,
+            #b88432
+        );
+
+    color: white;
+
+    font-family: 'Montserrat', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 20px rgba(170,120,35,0.35);
+
+    transition: .3s;
+
+    animation: buttonGlow 2.5s infinite;
+}
+
+button:hover {
+    transform: translateY(-2px) scale(1.03);
+}
+
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow:
+            0 7px 20px rgba(170,120,35,0.35);
+    }
+
+    50% {
+        box-shadow:
+            0 7px 30px rgba(255,200,80,0.65);
+    }
+}
+
+/* КЪСМЕТ */
+
+.fortune {
+    display: none;
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 27px;
+
+    line-height: 1.25;
+
+    color: #641d27;
+
+    font-weight: 600;
+
+    padding: 5px 5px 10px;
+}
+
+/* ЕФЕКТНО ПОЯВЯВАНЕ */
+
+.fortune.epic {
+    display: block;
+
+    animation:
+        epicFortune
+        1.25s
+        cubic-bezier(.17,.89,.32,1.28)
+        forwards;
+}
+
+@keyframes epicFortune {
+    0% {
+        opacity: 0;
+
+        filter:
+            blur(15px)
+            drop-shadow(0 0 0 transparent);
+
+        transform:
+            scale(0.35)
+            translateY(25px);
+    }
+
+    35% {
+        opacity: 0.35;
+
+        filter:
+            blur(7px)
+            drop-shadow(
+                0 0 25px
+                rgba(218,170,65,0.8)
+            );
+
+        transform:
+            scale(1.15)
+            translateY(-5px);
+    }
+
+    65% {
+        opacity: 0.8;
+
+        filter:
+            blur(2px)
+            drop-shadow(
+                0 0 18px
+                rgba(218,170,65,0.6)
+            );
+
+        transform:
+            scale(0.97)
+            translateY(0);
+    }
+
+    100% {
+        opacity: 1;
+
+        filter:
+            blur(0)
+            drop-shadow(0 0 0 transparent);
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+/* ПОДПИС */
+
+.signature {
+    margin-top: 25px;
+
+    font-family: 'Cormorant Garamond', serif;
+
+    font-size: 18px;
+
+    color: #a07835;
+
+    font-style: italic;
+}
+
+/* СНЯГ */
+
+.snow {
+    position: fixed;
+
+    top: -20px;
+
+    color: white;
+
+    pointer-events: none;
+
+    z-index: 5;
+
+    animation:
+        snowFall
+        linear
+        infinite;
+}
+
+@keyframes snowFall {
+    to {
+        transform:
+            translateY(110vh)
+            rotate(360deg);
+    }
+}
+
+/* РАЗТЪРСВАНЕ */
+
+.card.magic {
+    animation:
+        magicShake
+        0.8s
+        ease;
+}
+
+@keyframes magicShake {
+    0% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform:
+            scale(1.02)
+            rotate(-1deg);
+    }
+
+    30% {
+        transform:
+            scale(1.04)
+            rotate(1deg);
+    }
+
+    45% {
+        transform:
+            scale(1.02)
+            rotate(-0.7deg);
+    }
+
+    60% {
+        transform:
+            scale(1.03)
+            rotate(0.7deg);
+    }
+
+    100% {
+        transform:
+            scale(1)
+            rotate(0);
+    }
+}
+
+/* ГОЛЯМ СВЕТЕЩ КРЪГ */
+
+.magic-ring {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border:
+        3px solid
+        rgba(255,215,110,0.95);
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    box-shadow:
+        0 0 15px #f5d477,
+        0 0 40px #f5d477,
+        inset 0 0 15px #fff1a8;
+
+    animation:
+        ringExplosion
+        1.2s
+        ease-out
+        forwards;
+}
+
+@keyframes ringExplosion {
+    0% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0);
+    }
+
+    35% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(12);
+    }
+}
+
+/* ГОЛЯМО СИЯНИЕ */
+
+.magic-light {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,239,166,0.95),
+            rgba(255,210,90,0.35),
+            transparent 70%
+        );
+
+    transform:
+        translate(-50%, -50%)
+        scale(0);
+
+    z-index: 25;
+
+    pointer-events: none;
+
+    animation:
+        lightExplosion
+        1s
+        ease-out
+        forwards;
+}
+
+@keyframes lightExplosion {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0);
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(7);
+    }
+}
+
+/* ЗЛАТНИ ЗВЕЗДИ */
+
+.magic-star {
+    position: fixed;
+
+    z-index: 40;
+
+    color: #f5d477;
+
+    font-size: 18px;
+
+    pointer-events: none;
+
+    text-shadow:
+        0 0 8px #fff1a8,
+        0 0 18px #f5d477;
+
+    animation:
+        starExplosion
+        1.4s
+        ease-out
+        forwards;
+}
+
+@keyframes starExplosion {
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(0);
+    }
+
+    15% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1.4);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(
+                calc(-50% + var(--sx)),
+                calc(-50% + var(--sy))
+            )
+            rotate(180deg)
+            scale(0.2);
+    }
+}
+
+/* КОНФЕТИ */
+
+.confetti {
+    position: fixed;
+
+    width: 6px;
+    height: 12px;
+
+    top: -20px;
+
+    z-index: 15;
+
+    pointer-events: none;
+
+    animation:
+        confettiFall
+        linear
+        forwards;
+}
+
+@keyframes confettiFall {
+    to {
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+/* МОБИЛЕН ЕКРАН */
+
+@media (max-width: 480px) {
+
+    .card {
+        width: 90%;
+
+        padding:
+            35px
+            22px
+            28px;
+    }
+
+    h1 {
+        font-size: 31px;
+    }
+
+    .fortune {
+        font-size: 25px;
+    }
+}
