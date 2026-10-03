@@ -3,7 +3,6 @@
 ========================= */
 
 const fortunes = {
-
     1: "✈️ Стягай куфара, че тази година диванът ще те вижда само на снимки! ✈️",
 
     2: "❤️ Здравето ти ще е желязно, а настроението — заразно!",
@@ -31,15 +30,20 @@ const fortunes = {
 
 
 /* =========================
-   ОПРЕДЕЛЯМЕ КОЙ КЪСМЕТ ДА ПОКАЖЕМ
+   ОПРЕДЕЛЯМЕ КОЙ КЪСМЕТ
+   ДА ПОКАЖЕМ ОТ ?k=1 ДО ?k=12
 ========================= */
 
-const params = new URLSearchParams(
-    window.location.search
-);
+const params = new URLSearchParams(window.location.search);
+
+const requestedFortune = Number(params.get("k"));
 
 const fortuneNumber =
-    params.get("k") || "1";
+    Number.isInteger(requestedFortune) &&
+    requestedFortune >= 1 &&
+    requestedFortune <= 12
+        ? requestedFortune
+        : 1;
 
 
 /* =========================
@@ -47,9 +51,7 @@ const fortuneNumber =
 ========================= */
 
 function createSnow() {
-
-    const snow =
-        document.createElement("div");
+    const snow = document.createElement("div");
 
     snow.className = "snow";
 
@@ -60,11 +62,10 @@ function createSnow() {
         "•"
     ];
 
-    snow.innerHTML =
+    snow.textContent =
         symbols[
             Math.floor(
-                Math.random() *
-                symbols.length
+                Math.random() * symbols.length
             )
         ];
 
@@ -88,10 +89,9 @@ function createSnow() {
 }
 
 
-setInterval(
-    createSnow,
-    180
-);
+/* Пускаме снега */
+
+setInterval(createSnow, 180);
 
 
 /* =========================
@@ -99,7 +99,6 @@ setInterval(
 ========================= */
 
 function revealFortune() {
-
     const button =
         document.querySelector("button");
 
@@ -110,6 +109,13 @@ function revealFortune() {
         document.querySelector(".card");
 
 
+    /* Защита, ако липсва елемент */
+
+    if (!button || !fortune || !card) {
+        return;
+    }
+
+
     /* Взимаме правилния късмет */
 
     const selectedFortune =
@@ -117,7 +123,7 @@ function revealFortune() {
         fortunes[1];
 
 
-    fortune.innerHTML =
+    fortune.textContent =
         selectedFortune;
 
 
@@ -173,19 +179,14 @@ function revealFortune() {
     ];
 
 
-    for (
-        let i = 0;
-        i < 45;
-        i++
-    ) {
-
+    for (let i = 0; i < 45; i++) {
         const star =
             document.createElement("div");
 
         star.className =
             "magic-star";
 
-        star.innerHTML =
+        star.textContent =
             stars[
                 Math.floor(
                     Math.random() *
@@ -235,15 +236,12 @@ function revealFortune() {
             ) + "px";
 
 
-        document.body.appendChild(
-            star
-        );
+        document.body.appendChild(star);
 
 
         setTimeout(() => {
             star.remove();
         }, 1600);
-
     }
 
 
@@ -252,7 +250,6 @@ function revealFortune() {
     ===================== */
 
     setTimeout(() => {
-
         fortune.style.display =
             "block";
 
@@ -260,16 +257,15 @@ function revealFortune() {
             "epic"
         );
 
-
-        /* рестартираме анимацията */
+        /*
+        Рестартираме анимацията
+        */
 
         void fortune.offsetWidth;
-
 
         fortune.classList.add(
             "epic"
         );
-
 
         createConfetti();
 
@@ -281,9 +277,7 @@ function revealFortune() {
     ===================== */
 
     setTimeout(() => {
-
         light.remove();
-
         ring.remove();
 
         card.classList.remove(
@@ -299,20 +293,20 @@ function revealFortune() {
 ========================= */
 
 function createConfetti() {
-
     const pieces = 90;
 
+    const colors = [
+        "#d4af37",
+        "#f5d477",
+        "#ffffff",
+        "#8f1828",
+        "#c99b45"
+    ];
 
-    for (
-        let i = 0;
-        i < pieces;
-        i++
-    ) {
 
+    for (let i = 0; i < pieces; i++) {
         const confetti =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
 
         confetti.className =
             "confetti";
@@ -340,15 +334,10 @@ function createConfetti() {
 
 
         confetti.style.background =
-            [
-                "#d4af37",
-                "#f5d477",
-                "#ffffff",
-                "#8f1828",
-                "#c99b45"
-            ][
+            colors[
                 Math.floor(
-                    Math.random() * 5
+                    Math.random() *
+                    colors.length
                 )
             ];
 
@@ -372,9 +361,7 @@ function createConfetti() {
 
 
         confetti.style.transform =
-            `rotate(
-                ${Math.random() * 360}deg
-            )`;
+            `rotate(${Math.random() * 360}deg)`;
 
 
         document.body.appendChild(
@@ -385,6 +372,13 @@ function createConfetti() {
         setTimeout(() => {
             confetti.remove();
         }, 8000);
-
     }
 }
+
+
+/* =========================
+   ПРАВИМ ФУНКЦИЯТА ДОСТЪПНА
+   ЗА onclick В HTML
+========================= */
+
+window.revealFortune = revealFortune;
